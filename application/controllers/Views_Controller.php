@@ -9,7 +9,7 @@ class Views_Controller extends CI_Controller {
     }
     public function index()
     {
-             $this->load->view('index.php');
+             $this->load->view('index');
 			    
     }
     public function books_dashboard()
