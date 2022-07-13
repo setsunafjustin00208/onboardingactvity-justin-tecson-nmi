@@ -26,9 +26,9 @@ if(!$loginVerification)
     <script src="<?=base_url()?>assets/js/dataTables.bulma.min.js" type="text/javascript"></script>
     <script src="<?=base_url()?>assets/js/datatables.min.js" type="text/javascript"></script>
     <script src="<?=base_url()?>assets/js/dataTables.dataTables.min.js" type="text/javascript"></script>
+		<script src="<?=base_url()?>assets/js/modal-fx.min.js" type="text/javascript"></script>
     <script src="<?=base_url()?>assets/js/jquery-3.6.0.min.js" type="text/javascript"></script>
     <script src="<?=base_url()?>assets/js/jquery.dataTables.min.js" type="text/javascript"></script>
-    <script src="<?=base_url()?>assets/js/modal-fx.min.js" type="text/javascript"></script>
     <script src="<?=base_url()?>assets/js/mine.js" type="text/javascript"></script>
     <title>Welcome <?=$username?></title>
 </head>
@@ -73,6 +73,19 @@ if(!$loginVerification)
     </div>
   </div>
 </nav>
+<section class="hero is-info mb-6">
+  <div class="hero-body has-text-centered">
+    <p class="title">
+			<span class="icon-text">
+				<span class="icon"><i class="fas fa-book-bookmark"></i></span>
+				<span>Manage Books</span>
+			</span>
+    </p>
+    <p class="subtitle">
+      Add, edit, or Delete an existing books' information
+    </p>
+  </div>
+</section>
 <div class="columns is-mobile">
   <div class="column is-2 ml-4 has-background-light">
   <aside class="menu">
@@ -104,8 +117,136 @@ if(!$loginVerification)
     </aside>
   </div>
   <div class="column box">
+		<script>
+				document.addEventListener('DOMContentLoaded', () => {
+	
+				function openModal($el) {
+					$el.classList.add('is-active');
+				}
+
+				function closeModal($el) {
+					$el.classList.remove('is-active');
+				}
+
+				function closeAllModals() {
+					(document.querySelectorAll('.modal') || []).forEach(($modal) => {
+						closeModal($modal);
+					});
+				}
+
+				// Add a click event on buttons to open a specific modal
+				(document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
+					const modal = $trigger.dataset.target;
+					const $target = document.getElementById(modal);
+
+					$trigger.addEventListener('click', () => {
+						openModal($target);
+					});
+				});
+
+				(document.querySelectorAll('.modal-background, .modal-close, .modal-card-head .delete, .modal-card-foot .button') || []).forEach(($close) => {
+					const $target = $close.closest('.modal');
+
+					$close.addEventListener('click', () => {
+						closeModal($target);
+					});
+				});
+
+				// Add a keyboard event to close all modals
+				document.addEventListener('keydown', (event) => {
+					const e = event || window.event;
+
+					if (e.keyCode === 27) { // Escape key
+						closeAllModals();
+					}
+				});
+			});
+			</script>
+		<div class="buttons">
+        <button class="button is-success js-modal-trigger" data-target="modal-add-book">
+          <span class="icon-text">
+              <span class="icon">
+                <i class="fas fa-plus"></i>
+              </span>
+              <span>
+                Add Book
+              </span>
+          </span>
+        </button>
+        <div class="modal" id="modal-add-book">
+          <div class="modal-background"></div>
+          <div class="modal-card">
+            <header class="modal-card-head">
+              <p class="modal-card-title">Modal title</p>
+              <button class="delete" aria-label="close"></button>
+            </header>
+            <section class="modal-card-body">
+              <!-- Content ... -->
+            </section>
+            <footer class="modal-card-foot">
+              <button class="button is-success">Save changes</button>
+              <button class="button">Cancel</button>
+            </footer>
+          </div>
+        </div>
+		</div>
+    <script>
+      $(document).ready(function () {
+          $('#book').DataTable();
+      });
+    </script>
       <div class="table-container">
-          
+          <table class="table" id="book">
+						<thead>
+							<tr>
+								<th>Book ID</th>
+								<th>Book name</th>
+								<th>Author</th>
+								<th>Publication Date and Time</th>
+								<th>Date Created</th>
+								<th>Date Updated</th>
+                <th>Action</th>
+							</tr>
+								
+						</thead>
+						<tbody>
+						<?php
+										$bookquery = $this->db->get('books');
+										foreach($bookquery->result() as $bookrow)
+										{
+								?>
+							<tr>
+								
+                  <td><?=$bookrow->book_id?></td>
+                  <td><?=$bookrow->name?></td>
+                  <td><?=$bookrow->author?></td>
+                  <td><?=$bookrow->publication_date_n_time?></td>
+                  <td><?=$bookrow->date_created?></td>
+                  <td><?=$bookrow->date_updated?></td>
+                  <td>
+										<div class="buttons">
+											<button class="button is-warning"><span class="icon"><i class="fas fa-arrow-up-from-bracket"></i></span><span>Update</span></button>
+											<button class="button is-danger"><span class="icon"><i class="fas fa-arrow-up-from-bracket"></i></span><span>Delete</span></button>
+										</div>
+									</td>
+								
+							</tr>
+							<?php
+										}
+								?>
+						</tbody>
+						<tfoot>
+							<tr>
+								<th>Book ID</th>
+								<th>Book name</th>
+								<th>Author</th>
+								<th>Publication Date and Time</th>
+								<th>Date Created</th>
+								<th>Date Updated</th>
+                <th>Action</th>
+							</tr>
+						</tfoot>
+					</table>
       </div>  
   </div>
 </div>
