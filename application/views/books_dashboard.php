@@ -152,11 +152,11 @@ if(!$loginVerification)
 					});
 				});
 
-				// Add a keyboard event to close all modals
+			
 				document.addEventListener('keydown', (event) => {
 					const e = event || window.event;
 
-					if (e.keyCode === 27) { // Escape key
+					if (e.keyCode === 27) {
 						closeAllModals();
 					}
 				});
