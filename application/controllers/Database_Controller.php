@@ -29,6 +29,12 @@ class Database_Controller extends CI_Controller {
         }
     }
 
+    public function logout()
+    {
+        $this->session->sess_destroy();
+        redirect('Views_Controller/index');
+    }
+
 }
 
 /* End of file Database_Controller.php and path /application/controllers/Database_Controller.php */
