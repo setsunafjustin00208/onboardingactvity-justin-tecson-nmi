@@ -48,7 +48,7 @@ if($loginVerification)
   <div class="navbar-brand">
     <a class="navbar-item" href="https://bulma.io">
 		<i class="icon is-large fas fa-book fa-lg"></i>
-      <h2 class="title ml-3 has-text-light">Book inventory</h2>
+      <h2 class="title ml-3 has-text-light">Book Information</h2>
     </a>
     <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
       <span aria-hidden="true"></span>

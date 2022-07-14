@@ -47,7 +47,7 @@ if(!$loginVerification)
     <div class="navbar-brand">
         <a class="navbar-item" href="https://bulma.io">
             <i class="icon is-large fas fa-book fa-lg"></i>
-        <h2 class="title ml-3 has-text-light">Book inventory</h2>
+        <h2 class="title ml-3 has-text-light">Book Book Information</h2>
         </a>
         <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
         <span aria-hidden="true"></span>
@@ -82,7 +82,7 @@ if(!$loginVerification)
 			</span>
     </p>
     <p class="subtitle">
-      Add, edit, or Delete an existing books' information
+      Add a new, edit or delete an existing books' information
     </p>
   </div>
 </section>
@@ -94,7 +94,7 @@ if(!$loginVerification)
       </p>
       <ul class="menu-list">
         <li>
-          <a class="is-active"><span class="icon-text">
+          <a href="<?=site_url('Views_Controller/books_dashboard')?>" class="is-active"><span class="icon-text">
             <span class="icon is-medium">
               <i class="fas fa-book-journal-whills fa-2x"></i>
             </span>
@@ -104,7 +104,7 @@ if(!$loginVerification)
           </a>
         </li>
         <li>
-          <a class=""><span class="icon-text">
+          <a href="<?=site_url('Views_Controller/authors_dashboard')?>" class=""><span class="icon-text">
             <span class="icon is-medium">
               <i class="fas fa-book-open-reader fa-2x"></i>
             </span>
@@ -211,18 +211,18 @@ if(!$loginVerification)
 						</thead>
 						<tbody>
 						<?php
-										$bookquery = $this->db->get('books');
-										foreach($bookquery->result() as $bookrow)
+										$authorquery = $this->db->get('books');
+										foreach($authorquery->result() as $authorrow)
 										{
 								?>
 							<tr>
 								
-                  <td><?=$bookrow->book_id?></td>
-                  <td><?=$bookrow->name?></td>
-                  <td><?=$bookrow->author?></td>
-                  <td><?=$bookrow->publication_date_n_time?></td>
-                  <td><?=$bookrow->date_created?></td>
-                  <td><?=$bookrow->date_updated?></td>
+                  <td><?=$authorrow->book_id?></td>
+                  <td><?=$authorrow->name?></td>
+                  <td><?=$authorrow->author?></td>
+                  <td><?=$authorrow->publication_date_n_time?></td>
+                  <td><?=$authorrow->date_created?></td>
+                  <td><?=$authorrow->date_updated?></td>
                   <td>
 										<div class="buttons">
 											<button class="button is-warning"><span class="icon"><i class="fas fa-arrow-up-from-bracket"></i></span><span>Update</span></button>
