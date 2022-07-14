@@ -113,6 +113,79 @@ class Database_Controller extends CI_Controller {
 
     /**For the Book page */
 
+    public function add_book()
+    {
+        $add_book_look_up = $this->db->get_where('books', array('name' => $_POST['name']));
+        if($add_book_look_up->num_rows() > 0)
+        {
+            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>Book already added</span></span></div>";
+            redirect('Views_Controller/books_dashboard');
+        }
+        else if(!$add_book_look_up)
+        {
+            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
+            redirect('Views_Controller/books_dashboard');
+        }
+        else
+        {
+            $add_book = $this->db->insert('books',$_POST);
+
+            if(!$add_book)
+            {
+                $SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
+                redirect('Views_Controller/books_dashboard');
+            }
+            else
+            {
+                $_SESSION['message'] = "<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-success'><span class='icon'><i class='fas fa-check-square'></i></span><span>Book successfully added</span></span></div>";
+                redirect('Views_Controller/books_dashboard');
+            }
+        }
+    }
+
+    public function update_book()
+    {
+        $updated_book_data = array(
+            'name' => $_POST['name'],
+            'author' => $_POST['author'],
+            'description' => $_POST['description'],
+            'description' => $_POST['description'],
+            'date_updated' => $_POST['date_updated']
+        );
+
+        $this->db->where('book_id',$_POST['book_id']);
+        $update_book_query = $this->db->update('books', $updated_book_data);
+
+        if(!$update_book_query)
+        {
+            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
+            redirect('Views_Controller/books_dashboard');
+        }
+        else
+        {
+            $_SESSION['message'] = "<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-success'><span class='icon'><i class='fas fa-check-square'></i></span><span>Book successfully updated  </span></span></div>";
+            redirect('Views_Controller/books_dashboard');
+        }
+
+    }
+
+    public function delete_book()
+    {
+        $this->db->where('book_id',$_POST['book_id']);
+        $delete_book = $this->db->delete('books');
+
+        if(!$delete_book)
+        {
+            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
+            redirect('Views_Controller/books_dashboard');
+        }
+        else
+        {
+            $_SESSION['message'] = "<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-success'><span class='icon'><i class='fas fa-check-square'></i></span><span>Book successfully deleted  </span></span></div>";
+            redirect('Views_Controller/books_dashboard');
+        }
+    }
+
     /**End for the Book page */
 
 }
