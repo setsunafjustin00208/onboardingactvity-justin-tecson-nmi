@@ -266,8 +266,8 @@ if(!$loginVerification)
 				<tbody>
 				    <?php
 					    $authorquery = $this->db->get('authors');
-						foreach($authorquery->result() as $authorrow)
-						{
+              foreach($authorquery->result() as $authorrow)
+              {
 					?>
 				    <tr>		
                 <td><?=$authorrow->author_id?></td>
