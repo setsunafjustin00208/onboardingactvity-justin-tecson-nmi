@@ -117,6 +117,7 @@ if(!$loginVerification)
     </aside>
   </div>
   <div class="column box">
+  <div class="column box">
 		<script>
 				document.addEventListener('DOMContentLoaded', () => {
 	
@@ -134,7 +135,6 @@ if(!$loginVerification)
 					});
 				}
 
-				// Add a click event on buttons to open a specific modal
 				(document.querySelectorAll('.js-modal-trigger') || []).forEach(($trigger) => {
 					const modal = $trigger.dataset.target;
 					const $target = document.getElementById(modal);
@@ -161,35 +161,88 @@ if(!$loginVerification)
 					}
 				});
 			});
-			</script>
+		</script>
 		<div class="buttons">
-        <button class="button is-success js-modal-trigger" data-target="modal-add-book">
-          <span class="icon-text">
-              <span class="icon">
-                <i class="fas fa-plus"></i>
+            <button class="button is-success js-modal-trigger" data-target="modal-add-book">
+              <span class="icon-text">
+                  <span class="icon">
+                      <i class="fas fa-plus"></i>
+                  </span>
+                  <span>
+                      Add Author
+                  </span>
               </span>
-              <span>
-                Add Book
-              </span>
-          </span>
-        </button>
-        <div class="modal" id="modal-add-book">
-          <div class="modal-background"></div>
-          <div class="modal-card">
-            <header class="modal-card-head">
-              <p class="modal-card-title">Modal title</p>
-              <button class="delete" aria-label="close"></button>
-            </header>
-            <section class="modal-card-body">
-              <!-- Content ... -->
-            </section>
-            <footer class="modal-card-foot">
-              <button class="button is-success">Save changes</button>
-              <button class="button">Cancel</button>
-            </footer>
-          </div>
-        </div>
+            </button>
+              <div class="modal" id="modal-add-book">
+                  <div class="modal-background"></div>
+                  <div class="modal-card">
+                      <header class="modal-card-head">
+                          <p class="modal-card-title">Add a new book</p>
+                          <button class="delete" aria-label="close"></button>
+                      </header>
+                          <section class="modal-card-body">
+                            <?=form_open('Database_Controller/add_book')?>
+                            <?=validation_errors()?>
+                              <div class="container">
+                                <div class="field">
+                                  <label class="label">First name</label>
+                                  <div class="control">
+                                    <input class="input" type="text" placeholder="Enter First name" name="name" min=5 max=150>
+                                  </div>
+                                </div>
+                                <div class="field">
+                                  <label class="label">Last name</label>
+                                  <div class="control">
+                                    <input class="input" type="text" placeholder="Enter Last name" name="author" min=5 max=150>
+                                  </div>
+                                </div>
+                                <div class="field">
+                                  <label class="label">Middle name</label>
+                                  <div class="control">
+                                    <input class="input" type="text" placeholder="Enter Middle name" name="mname" min=5 max=150>
+                                  </div>
+                                </div>
+                                <div class="field">
+                                  <label class="label">Author Information</label>
+                                  <div class="control">
+                                    <textarea style="resize: none;" class="textarea" placeholder="Enter Author Information" rows=10 name="description" min=5 max=150></textarea>
+                                  </div>
+                                </div>
+                                <input type="hidden" name="date_created" value="<?=date('Y-m-d H:i:s')?>">
+                                <input type="hidden" name="date_updated" value="<?=date('Y-m-d H:i:s')?>"">
+                              </div>
+                          </section>
+                      <footer class="modal-card-foot">
+                            <button class="button is-success">
+                              <span class="icon-text">
+                                <span class="icon">
+                                  <i class="fas fa-floppy-disk"></i>
+                                </span>
+                                <span>
+                                  Save Author
+                                </span>
+                              </span>
+                            </button>
+                          <?=form_close()?>
+                          <button class="button">
+                            <span class="icon-text"><span class="icon">
+                              <i class="fas fa-ban"></i>
+                            </span>
+                            <span>Cancel</span>
+                        </button>
+                      </footer>
+                  </div>
+              </div>
 		</div>
+    <?php
+        if(isset($_SESSION['message']))
+        {
+
+          echo $_SESSION['message'];
+          unset($_SESSION['message']);
+        }
+      
+      ?>
     <script>
       $(document).ready(function () {
           $('#book').DataTable();
@@ -197,57 +250,173 @@ if(!$loginVerification)
     </script>
       <div class="table-container">
           <table class="table" id="book">
-						<thead>
-							<tr>
-								<th>Book ID</th>
-								<th>Book name</th>
-								<th>Author</th>
-								<th>Publication Date and Time</th>
-								<th>Date Created</th>
-								<th>Date Updated</th>
-                <th>Action</th>
-							</tr>
+			    <thead>
+				    <tr>
+              <th>Book ID</th>
+              <th>Title</th>
+              <th>Author</th>
+              <th>Description</th>
+              <th>Publication Date and Time</th>
+              <th>Date Created</th>
+              <th>Date Updated</th>
+              <th>Action</th>
+					</tr>
 								
-						</thead>
-						<tbody>
-						<?php
-										$authorquery = $this->db->get('books');
-										foreach($authorquery->result() as $authorrow)
-										{
-								?>
-							<tr>
-								
-                  <td><?=$authorrow->book_id?></td>
-                  <td><?=$authorrow->name?></td>
-                  <td><?=$authorrow->author?></td>
-                  <td><?=$authorrow->publication_date_n_time?></td>
-                  <td><?=$authorrow->date_created?></td>
-                  <td><?=$authorrow->date_updated?></td>
-                  <td>
-										<div class="buttons">
-											<button class="button is-warning"><span class="icon"><i class="fas fa-arrow-up-from-bracket"></i></span><span>Update</span></button>
-											<button class="button is-danger"><span class="icon"><i class="fas fa-arrow-up-from-bracket"></i></span><span>Delete</span></button>
-										</div>
-									</td>
-								
-							</tr>
-							<?php
-										}
-								?>
-						</tbody>
-						<tfoot>
-							<tr>
-								<th>Book ID</th>
-								<th>Book name</th>
-								<th>Author</th>
-								<th>Publication Date and Time</th>
-								<th>Date Created</th>
-								<th>Date Updated</th>
-                <th>Action</th>
-							</tr>
-						</tfoot>
-					</table>
+				</thead>
+				<tbody>
+				    <?php
+					    $bookquery = $this->db->get('books');
+						foreach($bookquery->result() as $bookrow)
+						{
+					?>
+				    <tr>		
+                <td><?=$bookrow->book_id?></td>
+                <td><?=$bookrow->name?></td>
+                <td><?=$bookrow->author?></td>
+                <td><?=$bookrow->description?></td>
+                <td><?=$bookrow->publication_date_n_time?></td>
+                <td><?=$bookrow->date_created?></td>
+                <td><?=$bookrow->date_updated?></td>
+                <td>
+                  <div class="buttons">
+                    <button class="button is-warning js-modal-trigger" data-target="modal-edit-book<?=$bookrow->book_id?>">
+                      <span class="icon-text">
+                          <span class="icon">
+                              <i class="fas fa-pen-to-square"></i>
+                          </span>
+                          <span>
+                              Edit book
+                          </span>
+                      </span>
+                    </button>
+                    <div class="modal" id="modal-edit-book<?=$bookrow->book_id?>">
+                      <div class="modal-background"></div>
+                      <div class="modal-card">
+                          <header class="modal-card-head">
+                              <p class="modal-card-title">Edit Book</p>
+                              <button class="delete" aria-label="close"></button>
+                          </header>
+                              <section class="modal-card-body">
+                                <?=form_open('Database_Controller/update_author')?>
+                                <?=validation_errors()?>
+                                  <div class="container">
+                                    <input type="hidden" name="author_id" value="<?=$authorrow->author_id?>">
+                                    <div class="field">
+                                      <label class="label">First name</label>
+                                      <div class="control">
+                                        <input class="input" type="text" value="<?=$authorrow->fname?>" name="fname" min=5 max=150>
+                                      </div>
+                                    </div>
+                                    <div class="field">
+                                      <label class="label">Last name</label>
+                                      <div class="control">
+                                        <input class="input" type="text" value="<?=$authorrow->lname?>"  name="lname" min=5 max=150>
+                                      </div>
+                                    </div>
+                                    <div class="field">
+                                      <label class="label">Middle name</label>
+                                      <div class="control">
+                                        <input class="input" type="text" value="<?=$authorrow->mname?>"  name="mname" min=5 max=150>
+                                      </div>
+                                    </div>
+                                    <div class="field">
+                                      <label class="label">Author Information</label>
+                                      <div class="control">
+                                        <textarea style="resize: none;" class="textarea" rows=10 name="description" min=5 max=150><?=$authorrow->description?></textarea>
+                                      </div>
+                                    </div>
+                                    <input type="hidden" name="date_updated" value="<?=date('y_m_d H:i:s')?>">
+                                  </div>
+                              </section>
+                          <footer class="modal-card-foot">
+                                <button class="button is-success">
+                                  <span class="icon-text">
+                                    <span class="icon">
+                                      <i class="fas fa-floppy-disk"></i>
+                                    </span>
+                                    <span>
+                                      Update Author
+                                    </span>
+                                  </span>
+                                </button>
+                              <?=form_close()?>
+                              <button class="button">
+                                <span class="icon-text"><span class="icon">
+                                  <i class="fas fa-ban"></i>
+                                </span>
+                                <span>Cancel</span>
+                            </button>
+                          </footer>
+                      </div>
+                  </div>
+                  <button class="button is-danger js-modal-trigger" data-target="modal-delete-author<?=$authorrow->author_id?>">
+                      <span class="icon-text">
+                          <span class="icon">
+                              <i class="fas fa-trash-can"></i>
+                          </span>
+                          <span>
+                              Delete Author
+                          </span>
+                      </span>
+                    </button>
+                    <div class="modal" id="modal-delete-author<?=$authorrow->author_id?>">
+                      <div class="modal-background"></div>
+                      <div class="modal-card">
+                          <header class="modal-card-head">
+                              <p class="modal-card-title">Delete Author?</p>
+                              <button class="delete" aria-label="close"></button>
+                          </header>
+                              <section class="modal-card-body">
+                                <?=form_open('Database_Controller/delete_author')?>
+                                <?=validation_errors()?>
+                                <input type="hidden" name="author_id" value="<?=$authorrow->author_id?>">
+                                  <p class="subtitle is-5"> 
+                                      Are you sure to delete this Author?
+                                  </p>
+                              </section>
+                          <footer class="modal-card-foot">
+                                <button class="button is-danger">
+                                  <span class="icon-text">
+                                    <span class="icon">
+                                      <i class="fas fa-check"></i>
+                                    </span>
+                                    <span>
+                                      Yes
+                                    </span>
+                                  </span>
+                                </button>
+                              <?=form_close()?>
+                              <button class="button is-success">
+                                <span class="icon-text"><span class="icon">
+                                  <i class="fas fa-xmark"></i>
+                                </span>
+                                <span>No</span>
+                            </button>
+                          </footer>
+                      </div>
+                  </div>
+                  </div>
+                </td>
+					</tr>
+					<?php
+					    }
+					?>
+				</tbody>
+				    <tfoot>
+                        <tr>
+                          <th>Book ID</th>
+                          <th>Title</th>
+                          <th>Author</th>
+                          <th>Description</th>
+                          <th>Publication Date and Time</th>
+                          <th>Date Created</th>
+                          <th>Date Updated</th>
+                          <th>Action</th>
+                        </tr>
+					</tfoot>
+			</table>
       </div>  
+  </div>
   </div>
 </div>
 </body>

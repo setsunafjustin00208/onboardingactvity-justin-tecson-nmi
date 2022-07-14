@@ -187,29 +187,29 @@ if(!$loginVerification)
                                 <div class="field">
                                   <label class="label">First name</label>
                                   <div class="control">
-                                    <input class="input" type="text" placeholder="Enter First name" name="fname" min=5 max=150>
+                                    <input class="input" type="text" placeholder="Enter First name" name="fname" min=5 max=150 required>
                                   </div>
                                 </div>
                                 <div class="field">
                                   <label class="label">Last name</label>
                                   <div class="control">
-                                    <input class="input" type="text" placeholder="Enter Last name" name="lname" min=5 max=150>
+                                    <input class="input" type="text" placeholder="Enter Last name" name="lname" min=5 max=50 required>
                                   </div>
                                 </div>
                                 <div class="field">
                                   <label class="label">Middle name</label>
                                   <div class="control">
-                                    <input class="input" type="text" placeholder="Enter Middle name" name="mname" min=5 max=150>
+                                    <input class="input" type="text" placeholder="Enter Middle name" name="mname" min=5 max=50>
                                   </div>
                                 </div>
                                 <div class="field">
                                   <label class="label">Author Information</label>
                                   <div class="control">
-                                    <textarea style="resize: none;" class="textarea" placeholder="Enter Author Information" rows=10 name="description" min=5 max=150></textarea>
+                                    <textarea style="resize: none;" class="textarea" placeholder="Enter Author Information" rows=10 name="description" min=5 max=500 required></textarea>
                                   </div>
                                 </div>
-                                <input type="hidden" name="date_created" value="<?=date("Y-m-d")?>">
-                                <input type="hidden" name="date_updated" value="<?=date("Y-m-d")?>"">
+                                <input type="hidden" name="date_created" value="<?=date("Y-m-d H:i:s")?>">
+                                <input type="hidden" name="date_updated" value="<?=date("Y-m-d H:i:s")?>">
                               </div>
                           </section>
                       <footer class="modal-card-foot">
@@ -304,28 +304,28 @@ if(!$loginVerification)
                                     <div class="field">
                                       <label class="label">First name</label>
                                       <div class="control">
-                                        <input class="input" type="text" value="<?=$authorrow->fname?>" name="fname" min=5 max=150>
+                                        <input class="input" type="text" value="<?=$authorrow->fname?>" name="fname" min=5 max=150 required>
                                       </div>
                                     </div>
                                     <div class="field">
                                       <label class="label">Last name</label>
                                       <div class="control">
-                                        <input class="input" type="text" value="<?=$authorrow->lname?>"  name="lname" min=5 max=150>
+                                        <input class="input" type="text" value="<?=$authorrow->lname?>"  name="lname" min=5 max=50 required>
                                       </div>
                                     </div>
                                     <div class="field">
                                       <label class="label">Middle name</label>
                                       <div class="control">
-                                        <input class="input" type="text" value="<?=$authorrow->mname?>"  name="mname" min=5 max=150>
+                                        <input class="input" type="text" value="<?=$authorrow->mname?>"  name="mname" min=5 max=50>
                                       </div>
                                     </div>
                                     <div class="field">
                                       <label class="label">Author Information</label>
                                       <div class="control">
-                                        <textarea style="resize: none;" class="textarea" rows=10 name="description" min=5 max=150><?=$authorrow->description?></textarea>
+                                        <textarea style="resize: none;" class="textarea" rows=10 name="description" min=5 max=500 required><?=$authorrow->description?></textarea>
                                       </div>
                                     </div>
-                                    <input type="hidden" name="date_updated" value="<?=date("Y-m-d")?>"">
+                                    <input type="hidden" name="date_updated" value="<?=date("Y-m-d H:i:s")?>">
                                   </div>
                               </section>
                           <footer class="modal-card-foot">
