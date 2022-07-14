@@ -17,6 +17,11 @@ class Views_Controller extends CI_Controller {
             $this->load->view('books_dashboard');
 			    
     }
+    public function authors_dashboard()
+    {
+            $this->load->view('authors_dashboard');
+			    
+    }
 }
 
 /* End of file Views_Controller.php and path /application/controllers/Views_Controller.php */

@@ -4,5 +4,15 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"html.autoClosingTags": false,
+		"html.autoCreateQuotes": false,
+		"html.format.enable": false,
+		"html.format.preserveNewLines": false,
+		"html.hover.documentation": false,
+		"html.hover.references": false,
+		"html.validate.scripts": false,
+		"html.suggest.html5": false,
+		"html.validate.styles": false
+	}
 }
