@@ -6,27 +6,41 @@ class Database_Controller extends CI_Controller {
     public function __construct()
     {
         parent::__construct();
+
+		$this->load->model('database_model');
     }
     public function login()
     {
+
         $username =  $_POST['username'];
         $password = $_POST['password'];
-        
-        $loginquery = $this->db->query("SELECT * FROM users WHERE username = '{$username}' AND password = '{$password}'");
-
-        if($loginquery->num_rows() > 0)
-        {
-            $lrow = $loginquery->row();
-            $userdata = array('user_id' => $lrow->user_id, 'username' => $lrow->username, 'password' => $lrow->password, 'logged_in' => TRUE);
-            $this->session->set_userdata($userdata);
-            redirect("Views_Controller/books_dashboard");
-            
-        }
-        else
-        {
-            $_SESSION['validation'] = "Invalid Username and/or Password";
+		$data['retrieved_data'] = $this->database_model->get_login_data($username,$password);
+		$id = $data['retrieved_data']['user_id'];
+		echo $id;
+		if($id > 0)
+		{	
+			$userdata = array('user_id'=>$id, 'logged_in' => TRUE);
+			$this->session->set_userdata($userdata);
+			$this->load->view('Views_Controller/');
+			
+			//redirect("Views_Controller/books_dashboard");
+		}
+		else
+		{
+			$_SESSION['validation'] = "Invalid Username and/or Password";
             redirect("Views_Controller/index");
-        }
+		}
+		//$get_data = json_encode($data);
+		//print_r(json_decode($get_data));
+		//print_r($get_data->userdata->user_id[0]);
+		//$this->session->set_userdata( $data );
+		//print_r(array_values($data));
+
+
+
+		
+		
+		
     }
 
     public function logout()
