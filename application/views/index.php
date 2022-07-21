@@ -88,12 +88,21 @@ if($loginVerification)
                     <i class="fa fa-lock"></i>
                   </span>
                 </div>
-                <?php
-                    if(isset($_SESSION['validation']))
-                    {
-                      echo "<div class='field icon-text mt-4 mb-4'><span class='icon has-text-danger'><i class='fa fas fa-exclamation-triangle'></i></span><span>".$_SESSION['validation']."</span></div>";
-                    }
-                ?>
+								<div class="field icon-text mt-4 mb-4 has-text-danger">
+										<?php
+														if(isset($validation))
+														{
+											?>
+													<span class="icon">
+														<i class="fas fa-exclamation-triangle"></i>
+													</span>
+													<span>
+															<?php echo $validation ?>
+													</span>
+										<?php
+														}
+										?>
+								</div>
               </div>
               <div class="field">
                 <button class="button is-success">

@@ -1,11 +1,16 @@
 <?php
 $loginVerification = $this->session->userdata('logged_in');
-$username = $this->session->userdata('username');
+$user_id = $this->session->userdata('user_id');
 
 if(!$loginVerification)
 {
     redirect('Views_Controller/index');
 }
+
+$user_info = $this->db->get_where('users', array('user_id' => $user_id));
+
+foreach  ($user_info->result() as $info):
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +35,7 @@ if(!$loginVerification)
     <script src="<?=base_url()?>assets/js/jquery-3.6.0.min.js" type="text/javascript"></script>
     <script src="<?=base_url()?>assets/js/jquery.dataTables.min.js" type="text/javascript"></script>
     <script src="<?=base_url()?>assets/js/mine.js" type="text/javascript"></script>
-    <title>Welcome <?=$username?></title>
+    <title>Welcome <?php echo $info->username; ?></title>
 </head>
 <body>
 <script>
@@ -235,13 +240,37 @@ if(!$loginVerification)
               </div>
 		</div>
     <?php
-        if(isset($_SESSION['message']))
-        {
-
-          echo $_SESSION['message'];
-          unset($_SESSION['message']);
-        }
-      
+      if(isset($error))
+			{
+			?>
+				<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'>
+					<span class='icon-text has-text-danger'>
+						<span class='icon'>
+							<i class='fas fa-exclamation-triangle'></i>
+						</span>
+							<span>
+									<?php echo $error?>
+							</span>
+					</span>
+				</div>
+			<?php
+			}
+			?>
+			<?php
+				if(isset($success))
+				{
+			?>
+				<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'>
+					<span class='icon-text has-text-success'><span class='icon'>
+						<i class='fas fa-check-square'></i>
+					</span>
+					<span>
+						<?php echo $success?>
+					</span>
+				</span>
+			</div>
+			<?php		
+				}
       ?>
     <script>
       $(document).ready(function () {
@@ -420,3 +449,5 @@ if(!$loginVerification)
 </div>
 </body>
 </html>
+
+<?php endforeach?>
