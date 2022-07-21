@@ -20,7 +20,6 @@ class Database_model extends CI_Model
 		}
 	}
 
-
 /******* Author functions***********/
 	public function add_author($first_name,$last_name,$middle_name)
 	{
@@ -37,9 +36,53 @@ class Database_model extends CI_Model
 			return $author_availability ;
 		}
 	}
+
+	public function update_author($author_id)
+	{
+		$author_update_data = array(
+            'fname'=>$_POST['fname'],
+            'lname'=>$_POST['lname'],
+            'mname'=>$_POST['mname'],
+            'description'=>$_POST['description'],
+            'date_updated'=>$_POST['date_updated']
+        );
+
+		$this->db->where('author_id',$author_id);
+		$update_author_query = $this->db->update('authors',$author_update_data);
+
+		if(!$update_author_query)
+        {
+			$query_success = FALSE;
+			return $query_success;
+            
+        }
+        else
+        {
+            $query_success = TRUE;
+			return $query_success;
+        }
+	}
+
+	public function delete_author($author_id)
+	{
+		$this->db->where('author_id',$author_id);
+        $delete_author = $this->db->delete('authors');
+
+		if(!$delete_author)
+        {
+			$query_success = FALSE;
+			return $query_success;
+            
+        }
+        else
+        {
+            $query_success = TRUE;
+			return $query_success;
+        }
+	}
 /******* End of Author functions ***********/
 
-/******* Book finctions ***********/
+/******* Book functions ***********/
 	public function add_book($name)
 	{
 		$add_book_look_up = $this->db->get_where('books', array('name' => $name));
@@ -55,8 +98,51 @@ class Database_model extends CI_Model
 			return $book_availability ;
 		}
 	}
+	public function update_book($book_id)
+	{
+		$updated_book_data = array(
+            'name' => $_POST['name'],
+            'author' => $_POST['author'],
+            'description' => $_POST['description'],
+            'description' => $_POST['description'],
+            'date_updated' => $_POST['date_updated']
+        );
 
-/******* Book finctions ***********/
+		$this->db->where('book_id',$book_id);
+		$update_book_query = $this->db->update('books',$updated_book_data);
+
+		if(!$update_book_query)
+        {
+			$query_success = FALSE;
+			return $query_success;
+            
+        }
+        else
+        {
+            $query_success = TRUE;
+			return $query_success;
+        }
+	}
+	public function delete_book($book_id)
+	{
+		$this->db->where('book_id',$book_id);
+        $delete_book = $this->db->delete('books');
+
+		if(!$delete_book)
+        {
+			$query_success = FALSE;
+			return $query_success;
+            
+        }
+        else
+        {
+            $query_success = TRUE;
+			return $query_success;
+        }
+	}
+
+/******* End Book functions ***********/
+
 
 }
 
