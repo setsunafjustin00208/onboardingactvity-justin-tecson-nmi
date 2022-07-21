@@ -1,12 +1,12 @@
 <?php 
 defined('BASEPATH') OR exit('No direct script access allowed');
+
         
 class Database_Controller extends CI_Controller {
 
     public function __construct()
     {
         parent::__construct();
-
 		$this->load->model('database_model');
     }
     public function login()
@@ -15,31 +15,19 @@ class Database_Controller extends CI_Controller {
         $username =  $_POST['username'];
         $password = $_POST['password'];
 		$data['retrieved_data'] = $this->database_model->get_login_data($username,$password);
-		$id = $data['retrieved_data']['user_id'];
-		echo $id;
-		if($id > 0)
+        $user_id =  $data['retrieved_data'];
+		if($user_id > 0)
 		{	
-			$userdata = array('user_id'=>$id, 'logged_in' => TRUE);
+			$userdata = array('user_id'=>$user_id, 'logged_in' => TRUE);
 			$this->session->set_userdata($userdata);
-			$this->load->view('Views_Controller/');
-			
-			//redirect("Views_Controller/books_dashboard");
+			redirect("Views_Controller/books_dashboard");
 		}
 		else
 		{
-			$_SESSION['validation'] = "Invalid Username and/or Password";
-            redirect("Views_Controller/index");
-		}
-		//$get_data = json_encode($data);
-		//print_r(json_decode($get_data));
-		//print_r($get_data->userdata->user_id[0]);
-		//$this->session->set_userdata( $data );
-		//print_r(array_values($data));
-
-
-
-		
-		
+			$message['validation'] = "Invalid Username and/or Password";
+			$this->load->view('index', $message, FALSE);
+			
+		}	
 		
     }
 
@@ -53,34 +41,22 @@ class Database_Controller extends CI_Controller {
 
     public function add_author()
     {
-        $add_author_look_up = $this->db->get_where('authors', array('fname' => $_POST['fname'],'lname' => $_POST['lname'],'mname' => $_POST['mname'] ));
-        if($add_author_look_up->num_rows() > 0)
-        {
-            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>Author already added</span></span></div>";
-            redirect('Views_Controller/authors_dashboard');
-        }
-        else if(!$add_author_look_up)
-        {
-            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
-            redirect('Views_Controller/authors_dashboard');
-        }
-        else
-        {
-            $add_author=$this->db->insert('authors', $_POST);
+		$author_data['author_availability'] = $this->database_model->add_author($_POST['fname'],$_POST['lname'], $_POST['mname']);
+		$author_availability = $author_data['author_availability'];
 
-            if(!$add_author)
-            {
-                $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
-                redirect('Views_Controller/authors_dashboard');
-            }
-            else
-            {
-                $_SESSION['message'] = "<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-success'><span class='icon'><i class='fas fa-check-square'></i></span><span>Author successfully added</span></span></div>";
-                redirect('Views_Controller/authors_dashboard');
-            }
-           
-        }
-        
+		if($author_availability == TRUE)
+		{
+			$message['error'] = "Author already added";
+			$this->load->view('authors_dashboard', $message, FALSE);
+			
+		}
+
+		else if($author_availability == FALSE)
+		{
+			$message['success'] = "Author created successfully";
+			$this->load->view('authors_dashboard', $message, FALSE);
+		}
+		
     }
     public function update_author()
     {
@@ -129,32 +105,22 @@ class Database_Controller extends CI_Controller {
 
     public function add_book()
     {
-        $add_book_look_up = $this->db->get_where('books', array('name' => $_POST['name']));
-        if($add_book_look_up->num_rows() > 0)
-        {
-            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>Book already added</span></span></div>";
-            redirect('Views_Controller/books_dashboard');
-        }
-        else if(!$add_book_look_up)
-        {
-            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
-            redirect('Views_Controller/books_dashboard');
-        }
-        else
-        {
-            $add_book = $this->db->insert('books',$_POST);
 
-            if(!$add_book)
-            {
-                $SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
-                redirect('Views_Controller/books_dashboard');
-            }
-            else
-            {
-                $_SESSION['message'] = "<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-success'><span class='icon'><i class='fas fa-check-square'></i></span><span>Book successfully added</span></span></div>";
-                redirect('Views_Controller/books_dashboard');
-            }
-        }
+		$book_data['book_availability'] = $this->database_model->add_book($_POST['name']);
+		$book_availability = $book_data['book_availability'];
+
+		if($book_availability == TRUE)
+		{
+			$message['error'] = "Book already added";
+			$this->load->view('books_dashboard', $message, FALSE);
+			
+		}
+
+		else if($book_availability == FALSE)
+		{
+			$message['success'] = "Book created successfully";
+			$this->load->view('books_dashboard', $message, FALSE);
+		}
     }
 
     public function update_book()
