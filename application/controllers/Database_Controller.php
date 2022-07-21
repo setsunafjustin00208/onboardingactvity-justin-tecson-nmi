@@ -60,43 +60,41 @@ class Database_Controller extends CI_Controller {
     }
     public function update_author()
     {
-        $author_update_data = array(
-            'fname'=>$_POST['fname'],
-            'lname'=>$_POST['lname'],
-            'mname'=>$_POST['mname'],
-            'description'=>$_POST['description'],
-            'date_updated'=>$_POST['date_updated']
-        );
+       $query_status['query_success'] = $this->database_model->update_author($_POST['author_id']);
+	   $status_query = $query_status['query_success'];
 
-        $this->db->where('author_id',$_POST['author_id']);                        
-        $update_author_query = $this->db->update('authors',$author_update_data);
+		if($status_query == FALSE)
+		{
+			$message['error'] = "Author didn't succussfully updated";
+			$this->load->view('authors_dashboard', $message, FALSE);
+			
+		}
 
-        if(!$update_author_query)
-        {
-            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
-            redirect('Views_Controller/authors_dashboard');
-        }
-        else
-        {
-            $_SESSION['message'] = "<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-success'><span class='icon'><i class='fas fa-check-square'></i></span><span>Author successfully updated  </span></span></div>";
-            redirect('Views_Controller/authors_dashboard');
-        }
+		else if($status_query == TRUE)
+		{
+			$message['success'] = "Author successfully updated";
+			$this->load->view('authors_dashboard', $message, FALSE);
+		}
+
+      
     }
     public function delete_author()
     {
-        $this->db->where('author_id',$_POST['author_id']);
-        $delete_author = $this->db->delete('authors');
-
-        if(!$delete_author)
-        {
-            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
-            redirect('Views_Controller/authors_dashboard');
-        }
-        else
-        {
-            $_SESSION['message'] = "<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-success'><span class='icon'><i class='fas fa-check-square'></i></span><span>Author successfully deleted  </span></span></div>";
-            redirect('Views_Controller/authors_dashboard');
-        }
+		$query_status['query_success'] = $this->database_model->delete_author($_POST['author_id']);
+		$status_query = $query_status['query_success'];
+ 
+		 if($status_query == FALSE)
+		 {
+			 $message['error'] = "Author didn't succussfully deleted";
+			 $this->load->view('authors_dashboard', $message, FALSE);
+			 
+		 }
+ 
+		 else if($status_query == TRUE)
+		 {
+			 $message['success'] = "Author successfully deleted";
+			 $this->load->view('authors_dashboard', $message, FALSE);
+		 }
     }
 
     /**End for the Author page */
@@ -125,45 +123,41 @@ class Database_Controller extends CI_Controller {
 
     public function update_book()
     {
-        $updated_book_data = array(
-            'name' => $_POST['name'],
-            'author' => $_POST['author'],
-            'description' => $_POST['description'],
-            'description' => $_POST['description'],
-            'date_updated' => $_POST['date_updated']
-        );
+        $query_status['query_success'] = $this->database_model->update_book($_POST['author_id']);
+	    $status_query = $query_status['query_success'];
 
-        $this->db->where('book_id',$_POST['book_id']);
-        $update_book_query = $this->db->update('books', $updated_book_data);
+		if($status_query == FALSE)
+		{
+			$message['error'] = "Book didn't succussfully updated";
+			$this->load->view('books_dashboard', $message, FALSE);
+			
+		}
 
-        if(!$update_book_query)
-        {
-            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
-            redirect('Views_Controller/books_dashboard');
-        }
-        else
-        {
-            $_SESSION['message'] = "<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-success'><span class='icon'><i class='fas fa-check-square'></i></span><span>Book successfully updated  </span></span></div>";
-            redirect('Views_Controller/books_dashboard');
-        }
+		else if($status_query == TRUE)
+		{
+			$message['success'] = "Book successfully updated";
+			$this->load->view('books_dashboard', $message, FALSE);
+		}
 
     }
 
     public function delete_book()
     {
-        $this->db->where('book_id',$_POST['book_id']);
-        $delete_book = $this->db->delete('books');
-
-        if(!$delete_book)
-        {
-            $_SESSION['message'] = "<div class='container box has-background-danger-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-danger'><span class='icon'><i class='fas fa-exclamation-triangle'></i></span><span>".$this->db->error()."</span></span></div>";
-            redirect('Views_Controller/books_dashboard');
-        }
-        else
-        {
-            $_SESSION['message'] = "<div class='container box has-background-success-light animate__animated animate__fadeInUpBig'><span class='icon-text has-text-success'><span class='icon'><i class='fas fa-check-square'></i></span><span>Book successfully deleted  </span></span></div>";
-            redirect('Views_Controller/books_dashboard');
-        }
+		$query_status['query_success'] = $this->database_model->delete_book($_POST['book_id']);
+		$status_query = $query_status['query_success'];
+ 
+		 if($status_query == FALSE)
+		 {
+			 $message['error'] = "Book didn't succussfully deleted";
+			 $this->load->view('books_dashboard', $message, FALSE);
+			 
+		 }
+ 
+		 else if($status_query == TRUE)
+		 {
+			 $message['success'] = "Book successfully deleted";
+			 $this->load->view('books_dashboard', $message, FALSE);
+		 }
     }
 
     /**End for the Book page */
