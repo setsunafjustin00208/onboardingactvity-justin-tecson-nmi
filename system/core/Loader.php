@@ -1349,6 +1349,12 @@ class CI_Loader {
 		// Load libraries
 		if (isset($autoload['libraries']) && count($autoload['libraries']) > 0)
 		{
+			// Load the environment driver before the database code
+			if (in_array('env', $autoload['libraries']))
+			{
+				$this->library('env');
+				$autoload['libraries'] = array_diff($autoload['libraries'], array('env'));
+			}
 			// Load the database driver.
 			if (in_array('database', $autoload['libraries']))
 			{
