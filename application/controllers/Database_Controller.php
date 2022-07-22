@@ -47,13 +47,16 @@ class Database_Controller extends CI_Controller {
 		if($author_availability == TRUE)
 		{
 			$message['error'] = "Author already added";
+			unset($_POST);
 			$this->load->view('authors_dashboard', $message, FALSE);
+			
 			
 		}
 
 		else if($author_availability == FALSE)
 		{
 			$message['success'] = "Author created successfully";
+			unset($_POST);
 			$this->load->view('authors_dashboard', $message, FALSE);
 		}
 		
@@ -66,6 +69,7 @@ class Database_Controller extends CI_Controller {
 		if($status_query == FALSE)
 		{
 			$message['error'] = "Author didn't succussfully updated";
+			unset($_POST);
 			$this->load->view('authors_dashboard', $message, FALSE);
 			
 		}
@@ -73,6 +77,7 @@ class Database_Controller extends CI_Controller {
 		else if($status_query == TRUE)
 		{
 			$message['success'] = "Author successfully updated";
+			unset($_POST);
 			$this->load->view('authors_dashboard', $message, FALSE);
 		}
 
@@ -86,6 +91,7 @@ class Database_Controller extends CI_Controller {
 		 if($status_query == FALSE)
 		 {
 			 $message['error'] = "Author didn't succussfully deleted";
+			 unset($_POST);
 			 $this->load->view('authors_dashboard', $message, FALSE);
 			 
 		 }
@@ -93,6 +99,7 @@ class Database_Controller extends CI_Controller {
 		 else if($status_query == TRUE)
 		 {
 			 $message['success'] = "Author successfully deleted";
+			 unset($_POST);
 			 $this->load->view('authors_dashboard', $message, FALSE);
 		 }
     }
@@ -110,6 +117,7 @@ class Database_Controller extends CI_Controller {
 		if($book_availability == TRUE)
 		{
 			$message['error'] = "Book already added";
+			unset($_POST);
 			$this->load->view('books_dashboard', $message, FALSE);
 			
 		}
@@ -117,18 +125,20 @@ class Database_Controller extends CI_Controller {
 		else if($book_availability == FALSE)
 		{
 			$message['success'] = "Book created successfully";
+			unset($_POST);
 			$this->load->view('books_dashboard', $message, FALSE);
 		}
     }
 
     public function update_book()
     {
-        $query_status['query_success'] = $this->database_model->update_book($_POST['author_id']);
+        $query_status['query_success'] = $this->database_model->update_book($_POST['book_id']);
 	    $status_query = $query_status['query_success'];
 
 		if($status_query == FALSE)
 		{
 			$message['error'] = "Book didn't succussfully updated";
+			unset($_POST);
 			$this->load->view('books_dashboard', $message, FALSE);
 			
 		}
@@ -136,6 +146,7 @@ class Database_Controller extends CI_Controller {
 		else if($status_query == TRUE)
 		{
 			$message['success'] = "Book successfully updated";
+			unset($_POST);
 			$this->load->view('books_dashboard', $message, FALSE);
 		}
 
@@ -149,6 +160,7 @@ class Database_Controller extends CI_Controller {
 		 if($status_query == FALSE)
 		 {
 			 $message['error'] = "Book didn't succussfully deleted";
+			 unset($_POST);
 			 $this->load->view('books_dashboard', $message, FALSE);
 			 
 		 }
@@ -156,6 +168,7 @@ class Database_Controller extends CI_Controller {
 		 else if($status_query == TRUE)
 		 {
 			 $message['success'] = "Book successfully deleted";
+			 unset($_POST);
 			 $this->load->view('books_dashboard', $message, FALSE);
 		 }
     }
